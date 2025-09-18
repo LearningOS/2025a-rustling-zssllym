@@ -3,10 +3,26 @@
 	This problem requires you to implement a sorting algorithm
 	you can use bubble sorting, insertion sorting, heap sorting, etc.
 */
-// I AM NOT DONE
 
-fn sort<T>(array: &mut [T]){
-	//TODO
+
+fn sort<T: std::cmp::PartialOrd + Clone>(array: &mut [T]){
+    // 使用快速排序
+    if array.len() <= 1 {return;}
+    let mut low = 0;
+    let mut high = array.len() - 1;
+	let pivot = array[0].clone();
+    while low < high {
+        while low < high && pivot <= array[high] { high-=1; }
+        array[low] = array[high].clone();
+        while low < high && array[low] <= pivot { low+=1; }
+        array[high] = array[low].clone();
+    }
+    array[low] = pivot;
+    let l = array.len();
+    
+    sort(&mut array[..low]);
+    sort(&mut array[low + 1..]);
+
 }
 #[cfg(test)]
 mod tests {
